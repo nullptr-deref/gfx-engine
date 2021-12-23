@@ -45,7 +45,7 @@ int main() {
     glEnableVertexAttribArray(0);
 
     // Shaders
-        glEnable(GL_BLEND);
+        gl::enable(gl::Capability::Blend);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         const std::string vertfp = std::string("C:/dev/GameEngine/GameEngine/resources/VertexDefault.shader");
         // More complex and long form of shader creation
