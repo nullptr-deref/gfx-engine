@@ -48,20 +48,10 @@ int main() {
         gl::enable(gl::Capability::Blend);
         gl::blendFunc(gl::BlendFactor::SrcAlpha, gl::BlendFactor::OneMinusSrcAlpha);
         const std::string vertfp = std::string("C:/dev/GameEngine/GameEngine/resources/VertexDefault.shader");
-        // More complex and long form of shader creation
-        //glsl::Shader vertex(glsl::ShaderType::Vertex);
-        //vertex.create();
-        //vertex.setSource(glsl::ShaderSource::parseFromFile(vertfp));
-        //const bool vCompiled = vertex.compile();
-        glsl::Shader vertex = glsl::createShaderInstantly(glsl::ShaderType::Vertex, glsl::ShaderSource::parseFromFile(vertfp));
+        glsl::VertexShader vertex(glsl::ShaderSource::parseFromFile(vertfp));
 
         const std::string fragfp = std::string("C:/dev/GameEngine/GameEngine/resources/FragmentDefault.shader");
-        // More complex and long form of shader creation
-        //glsl::Shader frag(glsl::ShaderType::Fragment);
-        //frag.create();
-        //frag.setSource(glsl::ShaderSource::parseFromFile(fragfp));
-        //const bool fragCompiled = frag.compile();
-        glsl::Shader fragment = glsl::createShaderInstantly(glsl::ShaderType::Fragment, glsl::ShaderSource::parseFromFile(fragfp));
+        glsl::FragmentShader fragment(glsl::ShaderSource::parseFromFile(fragfp));
 
         glsl::Program p;
         p.create();
