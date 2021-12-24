@@ -25,7 +25,7 @@ namespace glsl {
 
         return ret;
     }
-    auto Shader::setSource(const ShaderSource &src) -> void {
+    auto Shader::setSource(const ShaderSource &src) const -> void {
         const char *rawSrc = src.c_string();
         glShaderSource(this->id, 1, &rawSrc, nullptr);
     }
@@ -33,8 +33,12 @@ namespace glsl {
         glCompileShader(this->id);
         GLint compStatus;
         glGetShaderiv(this->id, GL_COMPILE_STATUS, &compStatus);
+        this->compiled_ = static_cast<CompileStatus>(compStatus);
 
-        return static_cast<CompileStatus>(compStatus);
+        return this->compiled_;
+    }
+    auto Shader::compiled() const -> CompileStatus {
+        return this->compiled_;
     }
 
     auto Shader::getID() const -> ObjectID {

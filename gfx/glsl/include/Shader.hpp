@@ -19,6 +19,7 @@ namespace glsl {
     public:
         friend class Program;
     private:
+        CompileStatus compiled_;
         ShaderType type_;
         auto getID() const -> ObjectID;
     public:
@@ -26,8 +27,9 @@ namespace glsl {
         void create() override;
         void del() override;
         gl::String getInfoLog() override;
-        auto setSource(const ShaderSource &src) -> void;
+        auto setSource(const ShaderSource &src) const -> void;
         auto compile() -> CompileStatus;
+        auto compiled() const -> CompileStatus;
     };
 
     auto createShaderInstantly(ShaderType type, ShaderSource src) -> Shader;
