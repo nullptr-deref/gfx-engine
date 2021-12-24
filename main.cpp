@@ -44,39 +44,28 @@ int main() {
     glVertexAttribPointer(0, 3, GL_FLOAT, true, 3*sizeof(float), 0);
     glEnableVertexAttribArray(0);
 
-    // Shaders
-        gl::enable(gl::Capability::Blend);
-        gl::blendFunc(gl::BlendFactor::SrcAlpha, gl::BlendFactor::OneMinusSrcAlpha);
-        const std::string vertfp = std::string("C:/dev/GameEngine/GameEngine/resources/VertexDefault.shader");
-        glsl::VertexShader vertex(glsl::ShaderSource::parseFromFile(vertfp));
+    gl::enable(gl::Capability::Blend);
+    gl::blendFunc(gl::BlendFactor::SrcAlpha, gl::BlendFactor::OneMinusSrcAlpha);
+    const std::string vertfp = std::string("C:/dev/GameEngine/GameEngine/resources/VertexDefault.shader");
+    glsl::VertexShader vertex(glsl::ShaderSource::parseFromFile(vertfp));
 
-        const std::string fragfp = std::string("C:/dev/GameEngine/GameEngine/resources/FragmentDefault.shader");
-        glsl::FragmentShader fragment(glsl::ShaderSource::parseFromFile(fragfp));
+    const std::string fragfp = std::string("C:/dev/GameEngine/GameEngine/resources/FragmentDefault.shader");
+    glsl::FragmentShader fragment(glsl::ShaderSource::parseFromFile(fragfp));
 
-        glsl::Program p;
-        p.create();
-        p.attachShader(vertex);
-        p.attachShader(fragment);
-        const bool linked = p.link();
-        p.detachShader(vertex);
-        p.detachShader(fragment);
-        if (!linked) {
-            std::clog << "Program did not link.\n";
-            std::clog << p.getInfoLog() << '\n';
-            std::exit(-1);
-        }
-    // Shaders end
-    /*
-        if (!(vCompiled && fragCompiled)) {
-            std::cout << "Shaders did not compile.\n";
-            std::cout << vertex.getInfoLog() << '\n';
-            std::cout << frag.getInfoLog() << '\n';
-            std::exit(-1);
-        }
-        else { */
-            p.use();
-            std::cout << "Loaded default shaders.\n";
-//        }
+    glsl::Program p;
+    p.create();
+    p.attachShader(vertex);
+    p.attachShader(fragment);
+    const bool linked = p.link();
+    p.detachShader(vertex);
+    p.detachShader(fragment);
+    if (!linked) {
+        std::clog << "Program did not link.\n";
+        std::clog << p.getInfoLog() << '\n';
+        std::exit(-1);
+    }
+    p.use();
+    std::cout << "Loaded default shaders.\n";
 
     while (!glfwWindowShouldClose(wnd)) {
         glClear(GL_COLOR_BUFFER_BIT);
