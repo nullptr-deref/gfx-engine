@@ -6,6 +6,7 @@ set(GLSL_SOURCES
     "Program.cpp"
     "Shader.cpp"
     "ShaderSource.cpp"
+    "VertexShader.cpp"
 )
 add_library(glsl STATIC ${GLSL_SOURCES})
 target_include_directories(glsl PRIVATE

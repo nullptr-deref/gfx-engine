@@ -7,6 +7,7 @@
 
 #include "../glsl/include/Program.hpp"
 #include "../glsl/include/Shader.hpp"
+#include "../glsl/include/VertexShader.hpp"
 
 namespace gl {
     enum class Capability : GLenum {
@@ -27,7 +28,7 @@ namespace gl {
         PolygonOffsetPoint = GL_POLYGON_OFFSET_POINT,
         PolygonSmooth = GL_POLYGON_SMOOTH,
         PrimitiveRestart = GL_PRIMITIVE_RESTART
-        // TODO: finish this section, right now too tired to just wrw
+        // TODO: finish this section, right now too tired to just copy-paste this from documentation
     };
 
     enum class BlendFactor : GLenum {
