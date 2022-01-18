@@ -1,3 +1,4 @@
 build/
 *.md
 gfx/glsl/TODOs.txt
+tags

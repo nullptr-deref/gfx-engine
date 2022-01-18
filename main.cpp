@@ -78,5 +78,6 @@ int main() {
 
     glfwDestroyWindow(wnd);
     glfwTerminate();
+
     return 0;
 }
