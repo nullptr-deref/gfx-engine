@@ -25,7 +25,7 @@ namespace gl {
         virtual auto bind() -> void = 0;
         virtual auto unbind() -> void = 0;
         virtual auto setLabel() -> void = 0;
-        virtual auto getLabel()-> String = 0;
+        virtual auto getLabel() -> String = 0;
     };
 
     class ObjectArray {
