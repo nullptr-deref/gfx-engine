@@ -5,12 +5,8 @@ project ("gfx")
 set(PROJ_HEADERS
     "include/Buffer.hpp"
     "include/Object.hpp"
-
-    # TODO: replace itr with some rewritten stuff
-    "include/Program.hpp"
-    "include/Shader.hpp"
 )
-set(PROJ_SOURCES "gfx.cpp")
+set(PROJ_SOURCES "gfx.cpp" "VertexArray.cpp")
 
 add_library(gfx STATIC ${PROJ_HEADERS} ${PROJ_SOURCES})
 set_target_properties( "gfx"
