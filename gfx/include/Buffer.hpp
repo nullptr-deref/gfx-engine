@@ -120,7 +120,7 @@ namespace gl {
             // A hint that suggests to the implementation that the storage for the buffer should come from "client" memory.
             ClientStorage = GL_CLIENT_STORAGE_BIT
         };
-        StorageBuffer() : BasicBuffer() {}
+        StorageBuffer() : BasicBuffer<Target>() {}
 
         auto store(GLsizeiptr size, const GLvoid *data, AccessFlags accessflags) -> void;
     };
