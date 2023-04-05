@@ -3,6 +3,7 @@
 project("GameEngine")
 
 add_subdirectory("gfx")
+add_subdirectory("fsys")
 
 add_library(engine STATIC "engine.hpp")
 set_target_properties("engine"
@@ -18,13 +19,18 @@ find_package(glfw3 3.3 REQUIRED)
 find_package(GLEW 2.2.0 REQUIRED)
 
 if(${OpenGL_FOUND})
-    target_link_libraries(engine PRIVATE
+    target_link_libraries("engine" PRIVATE
         "gfx"
         glfw
         # ${OPENGL_LIBRARIES} this method also works if placed instead of OpenGL::GL
         OpenGL::GL
         GLEW::GLEW
-    )
+)
+
+add_executable(fsys_test "test/fsys_test.cpp")
+target_link_libraries("fsys_test" PRIVATE
+    "fsys"
+)
 endif()
 # if(WIN32)
 #     message(STATUS "Copying glfw3.dll into executable folder...")
