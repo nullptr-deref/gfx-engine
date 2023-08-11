@@ -1,10 +1,11 @@
 #pragma once
 
 #include <string>
+#include <cstdint>
 
 #include <GL/glew.h>
 
-using u32 = unsigned int;
+using u32 = uint32_t;
 
 namespace gl {
     template <typename T>
@@ -54,7 +55,7 @@ namespace gl {
 // namespace gl {
 //     class BufferArray : ObjectArray {};
 // }
-// 
+//
 // int f {
 //     gl::BufferArray<Array> arr;
 //     arr.gen(3);
@@ -63,6 +64,6 @@ namespace gl {
 //     float coordsep[3][3] = { { 1, 2, 3 }, { 2, 3, 4 }, { 5, 6, 7} };
 //     // arr.elementData(size_t idx, GLsizeiptr size, const GLvoid *data);
 //     arr.elementData(0, 3 * sizeof(float), coordsep[1]);
-// 
+//
 //     arr.get<Buffer<GL_ARRAY_BUFFER>>(2);
 // }

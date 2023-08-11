@@ -76,10 +76,22 @@ namespace gl {
         void setLabel() override { std::cout << "Not implemented.\n"; }
         String getLabel() override { return "Not implemented.\n"; }
 
-        auto subData(GLintptr offset, GLsizeiptr size, const GLvoid *data) -> void;
-        auto clearData(BufferFormat internalfmt, BufferFormat fmt, Type type, const GLvoid *data) -> void;
-        auto clearSubData(BufferFormat internalfmt, GLintptr offset, GLsizeiptr size, BufferFormat fmt, Type type, const GLvoid *data) -> void;
-        auto mapRange(GLintptr offset, GLsizeiptr length, MappedBufferAccessFlags accessflags) -> GLvoid *;
+        auto subData(GLintptr offset,
+            GLsizeiptr size,
+            const GLvoid *data) -> void;
+        auto clearData(BufferFormat internalfmt,
+            BufferFormat fmt,
+            Type type,
+            const GLvoid *data) -> void;
+        auto clearSubData(BufferFormat internalfmt,
+            GLintptr offset,
+            GLsizeiptr size,
+            BufferFormat fmt,
+            Type type,
+            const GLvoid *data) -> void;
+        auto mapRange(GLintptr offset,
+            GLsizeiptr length,
+            MappedBufferAccessFlags accessflags) -> GLvoid *;
     };
 
     template <TargetBuffer Target>
@@ -99,24 +111,24 @@ namespace gl {
             // Allows the user to read the buffer via mapping the buffer.
             // Without this flag, attempting to map the buffer for reading will fail.
             MapRead = GL_MAP_READ_BIT,
-            
+
             // Allows the user to map the buffer for writing.
             // Without this flag, attempting to map the buffer for writing will fail.
             MapWrite = GL_MAP_WRITE_BIT,
-            
+
             // Allows the user to modify the contents of the storage with glBufferSubData.
             // Without this flag, attempting to call that function on this buffer will fail.
             DynamicStorage = GL_DYNAMIC_STORAGE_BIT,
-            
+
             // Allows the buffer object to be mapped in such a way that it can be used while it is mapped.
             // Without this flag, attempting to perform any operation on the buffer while it is mapped will fail.
             // You must use one of the mapping bits when using this bit.
             MapPersistent = GL_MAP_PERSISTENT_BIT,
-            
+
             // Allows reads from andwrites to a persistent buffer to be coherent with OpenGL, without an explicit barrier.
             // Without this flag, you must use an explicit barrier to achieve coherency.You must use GL_PERSISTENT_BIT when using this bit.
             MapCoherent = GL_MAP_COHERENT_BIT,
-            
+
             // A hint that suggests to the implementation that the storage for the buffer should come from "client" memory.
             ClientStorage = GL_CLIENT_STORAGE_BIT
         };
