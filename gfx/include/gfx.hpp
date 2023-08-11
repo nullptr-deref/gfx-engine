@@ -5,10 +5,7 @@
 #include "Object.hpp"
 #include "Buffer.hpp"
 
-#include "../glsl/include/Program.hpp"
-#include "../glsl/include/Shader.hpp"
-#include "../glsl/include/FragmentShader.hpp"
-#include "../glsl/include/VertexShader.hpp"
+#include "../glsl/include/glsl.hpp"
 
 namespace gl {
     enum class Capability : GLenum {
