@@ -3,9 +3,11 @@
 project("GameEngine")
 
 add_subdirectory("gfx")
-add_subdirectory("fsys")
 
-add_library(engine STATIC "engine.hpp")
+add_library(engine STATIC
+    "engine.hpp"
+    "WavefrontGeometry.cpp"
+)
 set_target_properties("engine"
     PROPERTIES
         CXX_STANDARD_REQUIRED TRUE
@@ -25,11 +27,6 @@ if(${OpenGL_FOUND})
         # ${OPENGL_LIBRARIES} this method also works if placed instead of OpenGL::GL
         OpenGL::GL
         GLEW::GLEW
-)
-
-add_executable(fsys_test "test/fsys_test.cpp")
-target_link_libraries("fsys_test" PRIVATE
-    "fsys"
 )
 endif()
 # if(WIN32)
