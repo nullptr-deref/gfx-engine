@@ -2,11 +2,14 @@ cmake_minimum_required(VERSION 3.10)
 
 project ("gfx")
 
-set(PROJ_HEADERS
+set(PROJ_COMPILED_HEADERS
     "include/Buffer.hpp"
     "include/Object.hpp"
 )
-set(PROJ_SOURCES "gfx.cpp" "VertexArray.cpp")
+set(PROJ_SOURCES
+    "gfx.cpp"
+    "VertexArray.cpp"
+)
 
 add_library(gfx STATIC ${PROJ_HEADERS} ${PROJ_SOURCES})
 set_target_properties("gfx"
