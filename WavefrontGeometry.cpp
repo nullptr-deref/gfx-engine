@@ -86,6 +86,7 @@ const std::map<DataTypeId, DataTypeIdentifier> identifiers {
 // TODO: probably I should create some function which will initialize
 // WavefrontGeometry's inner memory (like allocating enough space for
 // vertices and so on), but will see.
+auto openFileForReadSafely(const std::string_view &filename) -> std::ifstream;
 
 auto readWavefrontFromFile(const std::string_view &filename) -> std::shared_ptr<WavefrontGeometry> {
     std::ifstream fileStream { filename.data() };
@@ -136,4 +137,14 @@ auto countGeometryVertices(const std::string_view &filename) -> size_t {
     else throw EofException();
 
     return verticesCount;
+}
+auto openFileForReadSafely(const std::string_view &filename) -> std::ifstream {
+    std::ifstream filestream { filename.data() };
+    if (!filestream) {
+        if (filestream.bad()) throw FileReadException(FileReadState::BadBit);
+        else if (filestream.fail()) throw FileReadException(FileReadState::FailBit);
+        else throw EofException();
+    }
+
+    return filestream;
 }
