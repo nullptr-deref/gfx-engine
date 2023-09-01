@@ -83,61 +83,66 @@ const std::map<DataTypeId, DataTypeIdentifier> identifiers {
     { DataTypeId::Polygon, "f" }
 };
 
-// TODO: probably I should create some function which will initialize
-// WavefrontGeometry's inner memory (like allocating enough space for
-// vertices and so on), but will see.
+auto prepareWavefrontGeometry(const std::string_view &filename) -> WavefrontGeometry;
+auto trimEndlineComment(const std::string_view &line) -> std::string_view;
 auto openFileForReadSafely(const std::string_view &filename) -> std::ifstream;
 
 auto readWavefrontFromFile(const std::string_view &filename) -> std::shared_ptr<WavefrontGeometry> {
-    std::ifstream fileStream { filename.data() };
-    if (fileStream.is_open()) {
-        std::string line;
-        while (std::getline(fileStream, line)) {
-            if (line.empty()) continue;
-            if (line.front() == COMMENT_MARKER) continue;
+    auto wavefront = prepareWavefrontGeometry(filename);
 
-            std::istringstream ss { line };
+    auto fileStream = openFileForReadSafely(filename);
+    std::string line;
+    while (std::getline(fileStream, line)) {
+        if (line.empty()) continue;
+        if (line.front() == COMMENT_MARKER) continue;
 
-            DataTypeIdentifier identifier;
-            ss >> identifier;
-            if (identifier == identifiers.at(DataTypeId::Vertex)) {
-                const auto v = wavefront::parseVertex(line);
-                // Need to somehow implement things around memory
-                // management inside WavefrontGeometry class
-            }
-            // TODO: Parsing logic here...
+        line = trimEndlineComment(line);
+
+        std::istringstream ss { line };
+
+        DataTypeIdentifier identifier;
+        ss >> identifier;
+        if (identifier == identifiers.at(DataTypeId::Vertex)) {
+            const auto v = wavefront::parseVertex(ss.str());
+            // Need to somehow implement things around memory
+            // management inside WavefrontGeometry class
         }
+        // TODO: Parsing logic here...
     }
-    else if (fileStream.bad()) throw FileReadException(FileReadState::BadBit);
-    else if (fileStream.fail()) throw FileReadException(FileReadState::FailBit);
-    else throw EofException();
+
+    return std::make_shared<WavefrontGeometry>(std::move(wavefront));
+}
+
+auto trimEndlineComment(const std::string_view &line) -> std::string_view {
+    return line.substr(0, line.find(COMMENT_MARKER));
 }
 
 auto countGeometryVertices(const std::string_view &filename) -> size_t {
-    std::ifstream countStream { filename.data() };
+    auto countStream = openFileForReadSafely(filename);
     size_t verticesCount = 0;
-    if (countStream.is_open()) {
-        std::string line;
-        while (std::getline(countStream, line)) {
-            if (line.empty()) continue;
-            if (line.front() == COMMENT_MARKER
-             || line.front() != VERTEX_DATA_MARKER) continue;
+    std::string line;
+    while (std::getline(countStream, line)) {
+        if (line.empty()) continue;
+        if (line.front() == COMMENT_MARKER
+         || line.front() != VERTEX_DATA_MARKER) continue;
 
-            std::istringstream ss { line };
-            std::string identifier;
-            ss >> identifier;
-            if (identifier == identifiers.at(DataTypeId::Vertex)) {
-                verticesCount++;
-            }
+        std::istringstream ss { line };
+        std::string identifier;
+        ss >> identifier;
+        if (identifier == identifiers.at(DataTypeId::Vertex)) {
+            verticesCount++;
         }
-        countStream.close();
     }
-    else if (countStream.bad()) throw FileReadException(FileReadState::BadBit);
-    else if (countStream.fail()) throw FileReadException(FileReadState::FailBit);
-    else throw EofException();
+    countStream.close();
 
     return verticesCount;
 }
+
+// Prepares Wavefront geometry for reading it's data from the specified file.
+auto prepareWavefrontGeometry(const std::string_view &filename) -> WavefrontGeometry {
+    return WavefrontGeometry(countGeometryVertices(filename));
+}
+
 auto openFileForReadSafely(const std::string_view &filename) -> std::ifstream {
     std::ifstream filestream { filename.data() };
     if (!filestream) {
