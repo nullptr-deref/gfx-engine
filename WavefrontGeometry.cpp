@@ -28,7 +28,7 @@ public:
             case FileReadState::BadBit:
                 return "Filestream faced irrecoverable error.";
             case FileReadState::Eof:
-                return "End of file was reached.";
+                return "Filestream reached eof.";
         }
     }
 
@@ -41,7 +41,7 @@ class EofException : FileReadException {
 public:
     explicit EofException() noexcept : FileReadException(FileReadState::Eof) {}
     const char *what() const noexcept override {
-        return "Eof was reached.";
+        return "Filestream reached eof.";
     }
 
     ~EofException() {}
@@ -52,7 +52,18 @@ struct TextureCoordinate;
 struct VertexNormal;
 
 namespace wavefront {
-    auto parseVertex(const std::string_view &line) -> Vertex<float>;
+    auto parseVertex(const std::string_view &line) -> Vertex<float> {
+        Vertex<float> v;
+
+        std::string mutableLine { line.data() };
+        std::istringstream ss { mutableLine };
+        ss >> v.x >> v.y >> v.z;
+        // TODO: implement parsing of 'w' vertex component.
+        // It's a bit complicatd because it's an arbitrary component
+        // and doesn't always appear.
+
+        return v;
+    }
     auto parseTextureCoordinate(const std::string_view &line) -> TextureCoordinate;
     auto parseVertexNormal(const std::string_view &line) -> VertexNormal;
     auto parsePolygon(const std::string_view &line) -> Polygon;
