@@ -14,9 +14,11 @@ struct Vertex {
 
 class WavefrontGeometry {
 public:
-    WavefrontGeometry() = delete;
+    using VertexType = Vertex<float>;
+    WavefrontGeometry(size_t vertCount)
+    : vertices(std::make_unique<VertexType>(vertCount)) {}
 private:
-    std::unique_ptr<Vertex<float>> vertices;
+    std::unique_ptr<VertexType> vertices;
 };
 
 auto readWavefrontFromFile(const std::string_view &filename) -> std::shared_ptr<WavefrontGeometry>;
